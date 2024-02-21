@@ -1098,9 +1098,6 @@ class GrpcToRest:
                     shard_key=shard_key_selector,
                 )
             )
-        # TODO: remove deprecated field in v1.8.0
-        elif name == "delete_deprecated":
-            return rest.DeleteOperation(delete=cls.convert_points_selector(val))
         elif name == "delete_points":
             shard_key_selector = (
                 val.shard_key_selector if val.HasField("shard_key_selector") else None
@@ -1184,9 +1181,6 @@ class GrpcToRest:
                     filter=filter_,
                 )
             )
-        # TODO: remove deprecated field in v1.8.0
-        elif name == "clear_payload_deprecated":
-            return rest.ClearPayloadOperation(clear_payload=cls.convert_points_selector(val))
         elif name == "clear_payload":
             shard_key_selector = (
                 val.shard_key_selector if val.HasField("shard_key_selector") else None
@@ -2407,8 +2401,6 @@ class RestToGrpc:
             )
             return grpc.PointsUpdateOperation(
                 delete_points=delete_points,
-                # TODO: remove deprecated field in v1.8.0
-                delete_deprecated=points_selector,
             )
         elif isinstance(model, rest.SetPayloadOperation):
             if model.set_payload.points:
@@ -2490,8 +2482,6 @@ class RestToGrpc:
             )
             return grpc.PointsUpdateOperation(
                 clear_payload=clear_payload,
-                # TODO: remove deprecated field in v1.8.0
-                clear_payload_deprecated=points_selector,
             )
         elif isinstance(model, rest.UpdateVectorsOperation):
             shard_key_selector = (
